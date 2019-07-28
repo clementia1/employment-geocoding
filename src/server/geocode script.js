@@ -1,16 +1,16 @@
 const NodeGeocoder = require('node-geocoder');
-if(typeof require !== 'undefined') XLSX = require('xlsx');
+if (typeof require !== 'undefined') XLSX = require('xlsx');
 
 let options = {
-  provider: 'openstreetmap',
- 
-  // Optional depending on the providers
-  httpAdapter: 'https', // Default
-  // apiKey: 'YOUR_API_KEY', // for Mapquest, OpenCage, Google Premier
-  formatter: null         // 'gpx', 'string', ...
+	provider: 'openstreetmap',
+
+	// Optional depending on the providers
+	httpAdapter: 'https', // Default
+	// apiKey: 'YOUR_API_KEY', // for Mapquest, OpenCage, Google Premier
+	formatter: null // 'gpx', 'string', ...
 };
- 
-let geocoder = NodeGeocoder(options); 
+
+let geocoder = NodeGeocoder(options);
 
 let workbook = XLSX.readFile('data.xls');
 let sheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -23,30 +23,30 @@ function formatAddress(str) {
 		newString = newString.replace(/пров(\s|\.)/i, ' провулок ');
 		newString = newString.replace(/Харківська область, Харків, НОВОБАВАРСЬКИЙ/i, 'Харків');
 		newString = newString.replace(/Харківська область, Харків, ІНДУСТРІАЛЬНИЙ/i, 'Харків');
+		newString = newString.replace(/(проспект).+(Московський)/i, 'Московський проспект');
 		return newString;
 	}
 }
 
 // console.log(formatAddress('Харківська область, Харків, ІНДУСТРІАЛЬНИЙ, пр-т Московський, 275')); 
 
-json.map((item) => {
-	let str = item['Фактична адреса ПОУ / Оперативні вакансії'];
-	let elem = {};
-	setTimeout(function() {
-		geocoder.geocode(formatAddress(str))
-  			.then(function(res) {
-    			elem = res[0];
-    			console.log(elem);
-    			return elem
-  			})
-  			.catch(function(err) {
-    			console.log(err);
-  			});
-	}, 2500);
-	
-	return elem
-});
- /* 
+async function geocode() {
+	try {
+		let result = json.map(async function (item) {
+			let str = item['Фактична адреса ПОУ / Оперативні вакансії'];
+			let elem = await geocoder.geocode(formatAddress(str));
+
+			return await elem[0]
+		});
+		const res = await Promise.all(result);
+		console.log(res);
+	} catch (err) {
+		return err;
+	}
+}
+geocode()
+
+/* 
 geocoder.geocode('29 champs elysée paris')
   .then(function(res) {
     console.log(res);
@@ -55,4 +55,3 @@ geocoder.geocode('29 champs elysée paris')
     console.log(err);
   });
 */
-console.log(json);
