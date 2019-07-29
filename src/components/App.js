@@ -5,6 +5,21 @@ import 'leaflet/dist/leaflet.css';
 class App extends React.Component {
     constructor() {
         super();
+        this.state = {
+                data: []
+            }
+    }
+    
+    
+    componentDidMount() {    	
+    	fetch('./jsonData.json')
+    	  .then(response => { return response.json() })
+  			.then(jsonData => {  				
+    			this.setState({
+                    data: jsonData
+                });
+                console.log(jsonData);
+  			})
     }
 
     render() {
@@ -18,9 +33,12 @@ class App extends React.Component {
           										attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           										url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
         										/>
-    											<Marker position={position}>
-      											<Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-    											</Marker>
+        										{
+        											this.state.data.map(item => {        											
+        												let position = [item.latitude, item.longitude]
+        												return <Marker position={position}><Popup>{item['Посада (назва) / Характеристика вакансії']}<br/>{item['Роботодавець (назва) / Оперативні вакансії']}<br/>{item['Заробітна плата / Оперативні вакансії']+' грн'}<br/>{item["Завдання та обов'язки / Характеристика вакансії"]}<br/></Popup></Marker>
+        											})
+        										}
   											</Map>
   					</div>
   				</div>
