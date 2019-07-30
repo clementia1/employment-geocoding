@@ -27,7 +27,8 @@ class App extends React.Component {
         return (
         	<div className='container-fluid'>
         		<div className='map'>
-        			<div className="col-4">
+        			<div className="row justify-content-center">
+        			<div className="col-6">
     					  					<Map center={position} zoom={13}>
         										<TileLayer
           										attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -40,6 +41,7 @@ class App extends React.Component {
         											})
         										}
   											</Map>
+  						</div>
   					</div>
   				</div>
   			</div>
