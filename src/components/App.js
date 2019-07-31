@@ -37,7 +37,7 @@ class App extends React.Component {
         										{
         											this.state.data.map(item => {        											
         												let position = [item.latitude, item.longitude]
-        												return <Marker position={position}><Popup>{item['Посада (назва) / Характеристика вакансії']}<br/>{item['Роботодавець (назва) / Оперативні вакансії']}<br/>{item['Заробітна плата / Оперативні вакансії']+' грн'}<br/>{item["Завдання та обов'язки / Характеристика вакансії"]}<br/></Popup></Marker>
+        												return <Marker position={position}><Popup>{item['Посада (назва) / Характеристика вакансії']}<br/>{item['Роботодавець (назва) / Оперативні вакансії']}<br/>{item['Заробітна плата / Оперативні вакансії']+' грн'}<br/>{item["Завдання та обов'язки / Характеристика вакансії"]}<br/><br/><button type="button" class="btn btn-outline-info btn-block">Мені цікаво</button></Popup></Marker>
         											})
         										}
   											</Map>
