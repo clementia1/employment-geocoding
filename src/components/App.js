@@ -28,11 +28,11 @@ class App extends React.Component {
         	<div className='container-fluid'>
         		<div className='map'>
         			<div className="row justify-content-center">
-        			<div className="col-6">
-    					  					<Map center={position} zoom={13}>
+        			<div className="col-12">
+    					  					<Map maxZoom={19} center={position} zoom={13}>    					  						
         										<TileLayer
           										attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          										url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+          										url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         										/>
         										{
         											this.state.data.map(item => {        											

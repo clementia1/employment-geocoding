@@ -82,21 +82,23 @@ function formatAddress(str) {
 		newString = newString.replace(/Харківська область, Харків, Московський/i, 'Харків');
 		newString = newString.replace(/(проспект).+(Московський)/i, 'Московський проспект');
 		newString = newString.replace(/(вулиця).+(Ярослава).+(Мудрого)/i, 'Ярослава Мудрого вулиця');
+		
+		let strArray = newString.split(',');
+		strArray = strArray.map((item, i, arr) => {
+			item = item.replace(/вулиця/i,'').trim();
+			arr[1] = arr[1] + ' вулиця';
+			return item
+		})
+		newString = strArray.join(', ');
+		console.log(newString);
+		
 		return newString;
 	}
 }
 
-function sleep (fn, par) {
-  return new Promise((resolve) => {
-    // wait 3s before calling fn(par)
-    setTimeout(() => resolve(fn(par)), 3000)
-  })
-}
-
 async function geocode() {
 	let jobData = await Promise.all(json.map(async (item, i) => {
-		console.log(i);
-		await new Promise(resolve => setTimeout(resolve, i * 5000))
+		await new Promise(resolve => setTimeout(resolve, i * 6000))
       	try {      			
 				let str = item['Фактична адреса ПОУ / Оперативні вакансії'];
 					let elem = await geocoder.geocode(formatAddress(str));
@@ -111,27 +113,10 @@ async function geocode() {
       	}
   	}));
   	
- 	/*
-  	let jobData = json.map((item, i) => {
-  		let str = item['Фактична адреса ПОУ / Оперативні вакансії'];
-  		console.log(i);
-  		setTimeout(function() { 
-  			geocoder.geocode(formatAddress(str), function(err, res) {
-  				console.log(res[0]);
-  				if (res[0] != undefined) {
-						item['latitude'] = res[0].latitude;
-						item['longitude'] = res[0].longitude;
-				}
-				return item
-			})
-		}, i * 5000);
-  	});*/
-  	
   	let formatData = jobData.filter(item => {
 			return item.hasOwnProperty('latitude') == true
   	});
   	fs.writeFileSync('jsonData.json', JSON.stringify(formatData, null, 4), 'utf8');
-	console.log(jobData);
 }
 
 geocode();
