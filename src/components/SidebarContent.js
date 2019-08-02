@@ -32,7 +32,7 @@ class SidebarContent extends React.Component {
   					<input type="file" class="custom-file-input" id="customFile"/>
   					<label class="custom-file-label" for="customFile">Додати резюме</label>
 					</div>
-  					<button type="submit" className="btn btn-primary">Відіслати</button>
+  					<button className="btn btn-primary">Відіслати</button>
 				</form>
   			</div>
         );
